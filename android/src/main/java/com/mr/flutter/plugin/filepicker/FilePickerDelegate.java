@@ -285,7 +285,7 @@ public class FilePickerDelegate implements PluginRegistry.ActivityResultListener
                
             }
 
-            return;
+            
 
         }
         this.startFileExplorer();

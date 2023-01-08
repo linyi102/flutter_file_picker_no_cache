@@ -214,8 +214,18 @@ public class FileUtils {
             if (isExternalStorageDocument(uri)) {
                 Log.e(TAG, "External Document URI");
                 final String docId = DocumentsContract.getDocumentId(uri);
+                Log.e(TAG,docId);
                 final String[] split = docId.split(":");
                 final String type = split[0];
+                Log.e(TAG, "Downloads External Document URI");
+
+                // primary:Download/—Pngtree—blue space background_3591573 (1).png
+
+                if(split[1].split("/")[0].equalsIgnoreCase("Download")){ 
+                return  "/storage/emulated/0/"+split[1];
+
+                }
+                
                 if ("primary".equalsIgnoreCase(type)) {
                     Log.e(TAG, "Primary External Document URI");
                     return getExternalPath(context) + "/" + split[1];
@@ -466,5 +476,7 @@ public class FileUtils {
         else
             return File.separator;
     }
+
+
 
 }

@@ -222,7 +222,6 @@ public class FileUtils {
                 // primary:Download/—Pngtree—blue space background_3591573 (1).png
 
                 if(split[1].split("/")[0].equalsIgnoreCase("Download")){ 
-<<<<<<< HEAD
                                 Log.i(TAG, "Caching from URI: " + uri.toString());
         FileOutputStream fos = null;
         final FileInfo.Builder fileInfo = new FileInfo.Builder();
@@ -273,9 +272,6 @@ public class FileUtils {
                 .withSize(Long.parseLong(String.valueOf(file.length())));
 
         return path;
-=======
-                return  "/storage/emulated/0/"+split[1];
->>>>>>> 32da36e1b6861d73d928ed9156876e09c25a5e15
 
                 }
                 

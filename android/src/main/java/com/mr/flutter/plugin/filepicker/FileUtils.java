@@ -214,8 +214,67 @@ public class FileUtils {
             if (isExternalStorageDocument(uri)) {
                 Log.e(TAG, "External Document URI");
                 final String docId = DocumentsContract.getDocumentId(uri);
+                Log.e(TAG,docId);
                 final String[] split = docId.split(":");
                 final String type = split[0];
+                Log.e(TAG, "Downloads External Document URI");
+
+                // primary:Download/—Pngtree—blue space background_3591573 (1).png
+
+                if(split[1].split("/")[0].equalsIgnoreCase("Download")){ 
+                                Log.i(TAG, "Caching from URI: " + uri.toString());
+        FileOutputStream fos = null;
+        final FileInfo.Builder fileInfo = new FileInfo.Builder();
+        final String fileName = FileUtils.getFileName(uri, context);
+        final String path = context.getCacheDir().getAbsolutePath() + "/file_picker/" + (fileName != null ? fileName : System.currentTimeMillis());
+
+        final File file = new File(path);
+
+        if(!file.exists()) {
+            file.getParentFile().mkdirs();
+            try {
+                fos = new FileOutputStream(path);
+                try {
+                    final BufferedOutputStream out = new BufferedOutputStream(fos);
+                    final InputStream in = context.getContentResolver().openInputStream(uri);
+
+                    final byte[] buffer = new byte[8192];
+                    int len = 0;
+
+                    while ((len = in.read(buffer)) >= 0) {
+                        out.write(buffer, 0, len);
+                    }
+
+                    out.flush();
+                } finally {
+                    fos.getFD().sync();
+                }
+            } catch (final Exception e) {
+                try {
+                    fos.close();
+                } catch (final IOException | NullPointerException ex) {
+                    Log.e(TAG, "Failed to close file streams: " + e.getMessage(), null);
+                    return null;
+                }
+                Log.e(TAG, "Failed to retrieve path: " + e.getMessage(), null);
+                return null;
+            }
+        }
+
+        Log.d(TAG, "File loaded and cached at:" + path);
+
+       
+
+        fileInfo
+                .withPath(path)
+                .withName(fileName)
+                .withUri(uri)
+                .withSize(Long.parseLong(String.valueOf(file.length())));
+
+        return path;
+
+                }
+                
                 if ("primary".equalsIgnoreCase(type)) {
                     Log.e(TAG, "Primary External Document URI");
                     return getExternalPath(context) + "/" + split[1];
@@ -466,5 +525,7 @@ public class FileUtils {
         else
             return File.separator;
     }
+
+
 
 }

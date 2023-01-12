@@ -221,8 +221,10 @@ public class FileUtils {
 
                 // primary:Download/—Pngtree—blue space background_3591573 (1).png
 
-                if(split[1].split("/")[0].equalsIgnoreCase("Download")){ 
-                                Log.i(TAG, "Caching from URI: " + uri.toString());
+           
+                
+                if ("primary".equalsIgnoreCase(type)) {
+                                           Log.i(TAG, "Caching from URI: " + uri.toString());
         FileOutputStream fos = null;
         final FileInfo.Builder fileInfo = new FileInfo.Builder();
         final String fileName = FileUtils.getFileName(uri, context);
@@ -272,12 +274,6 @@ public class FileUtils {
                 .withSize(Long.parseLong(String.valueOf(file.length())));
 
         return path;
-
-                }
-                
-                if ("primary".equalsIgnoreCase(type)) {
-                    Log.e(TAG, "Primary External Document URI");
-                    return getExternalPath(context) + "/" + split[1];
                 }
             } else if (isDownloadsDocument(uri)) {
                 Log.e(TAG, "Downloads External Document URI");
